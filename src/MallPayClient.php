@@ -30,7 +30,7 @@ class MallPayClient
      * @param string $apiUrl
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct($apiUsername, $apiPassword, $apiUrl, $logger)
+    public function __construct($apiUsername, $apiPassword, $apiUrl, $logger = null)
     {
         $this->apiUsername = $apiUsername;
         $this->apiPassword = $apiPassword;
@@ -45,7 +45,13 @@ class MallPayClient
                 )
             );
         }
-        $this->client = new Client(['base_uri'=>$apiUrl, 'handler' => $stack,/*, 'verify' => false*/ /*, 'proxy' => 'tcp://localhost:8888'*/]);
+        $this->client = new Client([
+            'base_uri' => $apiUrl, 
+            'handler' => $stack, 
+            'timeout' => 30 
+            /*, 'verify' => false*/ 
+            /*, 'proxy' => 'tcp://localhost:8888'*/
+        ]);
     }
 
     /**
