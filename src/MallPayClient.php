@@ -17,6 +17,7 @@ use GuzzleHttp\HandlerStack;
  */
 class MallPayClient
 {
+    
     private $apiUsername;
     private $apiPassword;
     private $accessToken;
@@ -28,9 +29,11 @@ class MallPayClient
      * @param string $apiUsername
      * @param string $apiPassword
      * @param string $apiUrl
+     * @param object $logger
+     * @param integer $timeout
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct($apiUsername, $apiPassword, $apiUrl, $logger = null)
+    public function __construct($apiUsername, $apiPassword, $apiUrl, $logger = null, $timeout = 30)
     {
         $this->apiUsername = $apiUsername;
         $this->apiPassword = $apiPassword;
@@ -46,9 +49,9 @@ class MallPayClient
             );
         }
         $this->client = new Client([
-            'base_uri' => $apiUrl, 
+            'base_uri' => trim($apiUrl), 
             'handler' => $stack, 
-            'timeout' => 30 
+            'timeout' => $timeout 
             /*, 'verify' => false*/ 
             /*, 'proxy' => 'tcp://localhost:8888'*/
         ]);
